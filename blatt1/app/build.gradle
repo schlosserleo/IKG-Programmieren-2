@@ -40,5 +40,9 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'Aufgabe3'
+    mainClass = 'TaskRunner'
+}
+
+run {
+    standardInput = System.in
 }
