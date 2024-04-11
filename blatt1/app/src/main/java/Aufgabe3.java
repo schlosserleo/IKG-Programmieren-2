@@ -3,10 +3,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Aufgabe3 {
-  public static void aufgabe3() {
-    gameLoop();
-  }
-
   public static int generateRandom() {
     Random rnd = new Random(System.currentTimeMillis());
     return 1 + rnd.nextInt(10);

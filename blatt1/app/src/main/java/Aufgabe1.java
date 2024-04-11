@@ -73,7 +73,7 @@ public class Aufgabe1 {
   public static void quadraticEquation() {
     System.out.println(
         "Wir haben eine Quadratische Funktion f(x) = ax² + bx + c\n"
-            + "Geben sie werte für a,b und c ein um die Nullstellen der Funktion zu ermittlen"
+            + "Geben sie werte für a,b und c ein um die Nullstellen der Funktion zu ermittlen\n"
             + "a:");
     int a = UserInput.getLineInt();
     System.out.println("b:");

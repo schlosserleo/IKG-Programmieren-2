@@ -49,7 +49,8 @@ public class TaskRunner {
         Aufgabe2.mainLoop();
         break;
       case 3:
-        Aufgabe3.aufgabe3();
+        Aufgabe3.gameLoop();
+        break;
     }
   }
 }
