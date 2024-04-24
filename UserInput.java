@@ -11,7 +11,7 @@ public class UserInput {
 
   public static String getLine() {
     Scanner userInput = new Scanner(System.in);
-    return userInput.next();
+    return userInput.nextLine();
   }
 
   public static BigDecimal getLineBigDecimal() {

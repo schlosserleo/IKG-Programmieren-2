@@ -1,4 +1,4 @@
-public class Aufgabe1 {
+public class Bubblesort {
     public static int[] bubbleSort(int[] input) {
         int n = input.length;
         for (int i = 0; i < n - 1; i++) {
