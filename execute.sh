@@ -1,7 +1,7 @@
 #!/bin/bash
-JAVAPATH="/home/idiot/Documents/playground/java/ProRewrite/"
-rm -r /home/idiot/Documents/playground/java/ProRewrite/classes/Abgabe1/*.class
-cd $JAVAPATH 
-javac -d $JAVAPATH/classes Abgabe1/Runner.java
-cd classes
-java Abgabe1.Runner
+JAVAPATH="/home/idiot/Documents/IKG/PRO/Abgaben/Abgabe1/"
+rm -r /home/idiot/Documents/IKG/PRO/Abgaben/Abgabe1/classes/crm/*.class
+cd $JAVAPATH/src 
+javac -d $JAVAPATH/classes crm/Runner.java
+cd ../classes
+java crm.Runner
