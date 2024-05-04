@@ -1,16 +1,19 @@
 package crm;
 
+import java.util.ArrayList;
+
 public class MainMenu {
   public static void mainLoop() {
+    ArrayList<Customer> allCustomers = CSVParser.parseCSV("insurance.csv");
     boolean wantToExit = false;
     int userTaskSelection;
     while (true && !wantToExit) {
       Printing.printMainMenu();
-      userTaskSelection = UserInput.getLineInt();
+      userTaskSelection = InputHandler.getLineInt();
       if (!validateNumberRange(userTaskSelection)) {
         continue;
       }
-      wantToExit = launchTask(userTaskSelection);
+      wantToExit = launchTask(userTaskSelection, allCustomers);
     }
   }
 
@@ -22,12 +25,12 @@ public class MainMenu {
     return true;
   }
 
-  private static boolean launchTask(int taskSelection) {
+  private static boolean launchTask(int taskSelection, ArrayList<Customer> allCustomers) {
     switch (taskSelection) {
       case 7:
         return true;
       case 1:
-        Tasks.showCustomers();
+        Tasks.showCustomers(allCustomers);
     }
     return false;
   }

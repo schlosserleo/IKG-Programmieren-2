@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 public class Customer {
     public int age;
     public int children;
-    public boolean sex;
-    public boolean smoker;
+    public String sex;
+    public String smoker;
     public BigDecimal bmi;
     public BigDecimal charges;
     public String region;
@@ -17,8 +17,8 @@ public class Customer {
     public Customer(
             int age,
             int children,
-            boolean sex,
-            boolean smoker,
+            String sex,
+            String smoker,
             BigDecimal bmi,
             BigDecimal charges,
             String region) {
@@ -32,31 +32,75 @@ public class Customer {
     }
 
     public void setAgeInteractive() {
-        age = UserInput.getLineInt();
+        age = InputHandler.getBlankOrInt(age);
     }
 
     public void setChildrenInteractive() {
-        children = UserInput.getLineInt();
+        children = InputHandler.getBlankOrInt(children);
     }
 
     public void setSexInteractive() {
-        sex = (UserInput.getLine().equals("m") ? true : false);
+        String userInput = InputHandler.getLine();
+        if (userInput.isBlank()) {
+            sex = "any";
+            return;
+        }
+        if (userInput.matches("^[mf]$")) {
+            sex = (userInput.equals("m") ? "male" : "female");
+        }
     }
 
     public void setSmokerInteractive() {
-        sex = (UserInput.getLine().equals("y") ? true : false);
+
+        String userInput = InputHandler.getLine();
+        if (userInput.isBlank()) {
+            smoker = "any";
+            return;
+        }
+        if (userInput.matches("^[yn]$")) {
+            smoker = (userInput.equals("y") ? "yes" : "no");
+        }
     }
 
     public void setBmiInteractive() {
-        bmi = UserInput.getLineBigDecimal();
+        bmi = InputHandler.getBlankOrBigDecimal(bmi);
     }
 
     public void setChargesInteractive() {
-        charges = UserInput.getLineBigDecimal();
+        charges = InputHandler.getBlankOrBigDecimal(charges);
     }
 
     public void setRegionInteractive() {
-        region = UserInput.getLine();
+        String userInput = InputHandler.getLine();
+        if (!userInput.isBlank()) {
+            region = userInput;
+        }
+    }
+
+    public void updateCustomer(String attribute) {
+        switch (attribute) {
+            case "age":
+                setAgeInteractive();
+                break;
+            case "children":
+                setChildrenInteractive();
+                break;
+            case "sex":
+                setSexInteractive();
+                break;
+            case "smoker":
+                setSmokerInteractive();
+                break;
+            case "bmi":
+                setBmiInteractive();
+                break;
+            case "charges":
+                setChargesInteractive();
+                break;
+            case "region":
+                setRegionInteractive();
+                break;
+        }
     }
 
     @Override
@@ -81,13 +125,13 @@ public class Customer {
         return new StringBuilder("| ")
                 .append(String.format("%-2s", age))
                 .append(" | ")
-                .append(sex ? "Male  " : "Female")
+                .append(String.format("%-6s", sex))
                 .append(" | ")
                 .append(String.format("%-6s", bmi))
                 .append(" | ")
                 .append(String.format("%-6s", children))
                 .append(" | ")
-                .append(smoker ? "yes " : "no  ")
+                .append(String.format("%-4s", smoker))
                 .append(" | ")
                 .append(String.format("%-9s", region))
                 .append(" | ")

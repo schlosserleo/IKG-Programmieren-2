@@ -21,8 +21,8 @@ public class CSVParser {
         Customer currentCustomer = new Customer(
             Integer.parseInt(values[0]),
             Integer.parseInt(values[3]),
-            (values[1].equals("male") ? true : false),
-            (values[4].equals("yes") ? true : false),
+            values[1],
+            values[4],
             BigDecimal.valueOf(Double.parseDouble(values[2])),
             BigDecimal.valueOf(Double.parseDouble(values[6])),
             values[5]);

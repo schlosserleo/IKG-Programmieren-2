@@ -50,11 +50,11 @@ public class Statistics {
     public static BigDecimal[] createArrayFromUser() {
         BigDecimal[] result;
         System.out.println("Wie groß Soll ihr Array werden?");
-        int arraySize = UserInput.getLineInt();
+        int arraySize = InputHandler.getLineInt();
         result = new BigDecimal[arraySize];
         System.out.println("Füllen sie nun das Array. Drücken sie nach jeder Zahl enter");
         for (int i = 0; i < arraySize; i++) {
-            result[i] = UserInput.getLineBigDecimal();
+            result[i] = InputHandler.getLineBigDecimal();
         }
         return result;
     }

@@ -7,11 +7,11 @@ public class ConsoleInterface {
     boolean wantToExit = false;
     while (true && !wantToExit) {
       System.out.println(InterfaceStrings.mainMenu());
-      int taskSelection = UserInput.getLineInt();
+      int taskSelection = InputHandler.getLineInt();
       switch (taskSelection) {
         case 1:
           System.out.println(InterfaceStrings.refineOutputQuestion());
-          if (UserInput.getLine().equals("n")) {
+          if (InputHandler.getLine().equals("n")) {
             break;
           }
           ArrayList<Customer> filteredCustomerList = getfilteredCustomerList(allCustomers, getFilterValues());
@@ -53,18 +53,18 @@ public class ConsoleInterface {
     System.out.println("Leave empty open end");
 
     System.out.println("min age:");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       result[0].age = Integer.parseInt(currentUserInput);
     }
     System.out.println("max age:");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       result[1].age = Integer.parseInt(currentUserInput);
     }
 
     System.out.println("sex (m/f):");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       if (currentUserInput.equals("m")) {
         result[0].sex = true;
@@ -76,29 +76,29 @@ public class ConsoleInterface {
     }
 
     System.out.println("min bmi:");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       result[0].bmi = BigDecimal.valueOf(Double.parseDouble(currentUserInput));
     }
     System.out.println("max bmi:");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       result[1].bmi = BigDecimal.valueOf(Double.parseDouble(currentUserInput));
     }
 
     System.out.println("min children");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       result[0].children = Integer.parseInt(currentUserInput);
     }
     System.out.println("max children");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       result[1].children = Integer.parseInt(currentUserInput);
     }
 
     System.out.println("smoker (y/n):");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       if (currentUserInput == "y") {
         result[0].smoker = true;
@@ -109,18 +109,18 @@ public class ConsoleInterface {
       }
     }
     System.out.println("region(split region with \",\")");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       result[0].region = currentUserInput;
     }
 
     System.out.println("charges min:");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       result[0].charges = BigDecimal.valueOf(Double.parseDouble(currentUserInput));
     }
     System.out.println("charges max:");
-    currentUserInput = UserInput.getLine();
+    currentUserInput = InputHandler.getLine();
     if (!currentUserInput.isBlank()) {
       result[1].charges = BigDecimal.valueOf(Double.parseDouble(currentUserInput));
     }
