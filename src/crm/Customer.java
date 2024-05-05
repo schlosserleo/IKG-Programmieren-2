@@ -179,7 +179,4 @@ public class Customer {
                 .toString();
     }
 
-    public static String tableHeader() {
-        return "\033[37;40m|id    | age |sex     |bmi     |children|smoker|region     |charges      |\033[0m";
-    }
 }

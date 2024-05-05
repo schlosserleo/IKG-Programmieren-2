@@ -20,7 +20,7 @@ public class MainMenu {
   }
 
   private static boolean validateNumberRange(int input) {
-    if (input < 1 || input > 7) {
+    if (input < 1 || input > 8) {
       System.out.println("That's not a valid Task!");
       return false;
     }
@@ -32,10 +32,25 @@ public class MainMenu {
       case 1:
         Tasks.showCustomers(customers);
         break;
+      case 2:
+        Tasks.showStatistics(customers);
+        break;
+      case 3:
+        Tasks.searchCustomer(customers);
+        break;
+      case 4:
+        Tasks.deleteCustomer(customers);
+        break;
+      case 5:
+        Tasks.addCustomer(customers);
+        break;
       case 6:
         Tasks.showSortedCustomers(customers);
         break;
       case 7:
+        Tasks.resetList();
+        break;
+      case 8:
         return true;
     }
     return false;
