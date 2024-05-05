@@ -10,6 +10,7 @@ public class Printing {
                 .append("3 - Search a customer\n")
                 .append("4 - Delete a customer\n")
                 .append("5 - Add a customer\n")
+                .append("6 - Sort List\n")
                 .append("7 - Quit")
                 .toString());
     }

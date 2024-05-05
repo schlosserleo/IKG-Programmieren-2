@@ -3,6 +3,7 @@ package crm;
 import java.math.BigDecimal;
 
 public class Customer {
+    public int id;
     public int age;
     public int children;
     public String sex;
@@ -15,6 +16,7 @@ public class Customer {
     }
 
     public Customer(
+            int id,
             int age,
             int children,
             String sex,
@@ -22,6 +24,7 @@ public class Customer {
             BigDecimal bmi,
             BigDecimal charges,
             String region) {
+        this.id = id;
         this.age = age;
         this.children = children;
         this.sex = sex;
@@ -29,6 +32,38 @@ public class Customer {
         this.bmi = bmi;
         this.charges = charges;
         this.region = region;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getSmoker() {
+        return smoker;
+    }
+
+    public BigDecimal getBmi() {
+        return bmi;
+    }
+
+    public BigDecimal getCharges() {
+        return charges;
+    }
+
+    public String getRegion() {
+        return region;
     }
 
     public void setAgeInteractive() {
@@ -105,7 +140,9 @@ public class Customer {
 
     @Override
     public String toString() {
-        return new StringBuilder(age)
+        return new StringBuilder(id)
+                .append(", ")
+                .append(age)
                 .append(", ")
                 .append(sex)
                 .append(", ")
@@ -123,6 +160,8 @@ public class Customer {
 
     public String prettyToString() {
         return new StringBuilder("| ")
+                .append(String.format("%-4s", id))
+                .append(" | ")
                 .append(String.format("%-2s", age))
                 .append(" | ")
                 .append(String.format("%-6s", sex))
@@ -141,6 +180,6 @@ public class Customer {
     }
 
     public static String tableHeader() {
-        return "\033[37;40m|age |sex     |bmi     |children|smoker|region     |charges      |\033[0m";
+        return "\033[37;40m|id    | age |sex     |bmi     |children|smoker|region     |charges      |\033[0m";
     }
 }

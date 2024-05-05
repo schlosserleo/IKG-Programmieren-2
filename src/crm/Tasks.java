@@ -1,88 +1,75 @@
 package crm;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Tasks {
+  private static ArrayList<Customer> changedCustomers = new ArrayList<Customer>();
+  private static boolean isChanged = false;
+
   public static void showCustomers(ArrayList<Customer> customers) {
     Printing.printRefineOutputQuestion();
     if (!InputHandler.getLine().equals("y")) {
-      Printing.printCustomers(customers);
+      if (isChanged) {
+        Printing.printCustomers(changedCustomers);
+      } else {
+        Printing.printCustomers(customers);
+      }
       return;
     }
-    Customer[] filterValues = getFilterValues();
+    Customer[] filterValues = FilterCustomers.getFilterValues();
     Customer minValues = filterValues[0];
     Customer maxValues = filterValues[1];
-    customers = getfilteredCustomers(customers, minValues, maxValues);
-    Printing.printCustomers(customers);
+    if (isChanged) {
+      changedCustomers = FilterCustomers.getfilteredCustomers(changedCustomers, minValues, maxValues);
+    } else {
+      changedCustomers = FilterCustomers.getfilteredCustomers(customers, minValues, maxValues);
+    }
+    isChanged = true;
+    Printing.printCustomers(changedCustomers);
   }
 
-  private static Customer[] getFilterValues() {
-    Customer minValues = new Customer(
-        -1,
-        -1,
-        "any",
-        "any",
-        BigDecimal.valueOf(-1),
-        BigDecimal.valueOf(-1),
-        "northwest,northeast,southwest,southeast");
-
-    Customer maxValues = new Customer(
-        1000,
-        1000,
-        "",
-        "",
-        BigDecimal.valueOf(1000),
-        BigDecimal.valueOf(100000000),
-        "");
-
-    String[] minMaxAttributes = new String[] { "age", "bmi", "children", "charges" };
-    for (String attribute : minMaxAttributes) {
-      System.out.println("min " + attribute + ":");
-      minValues.updateCustomer(attribute);
-      System.out.println("max " + attribute + ":");
-      maxValues.updateCustomer(attribute);
+  public static void showSortedCustomers(ArrayList<Customer> customers) {
+    if (isChanged) {
+      changedCustomers = sortCustomers(changedCustomers);
+    } else {
+      changedCustomers = sortCustomers(customers);
     }
-    System.out.println("Sex(m/f):");
-    minValues.setSexInteractive();
-    System.out.println("Smoker(y/n):");
-    minValues.setSmokerInteractive();
-    System.out.println("region(if including multiple, please seperate by \",\"):");
-    minValues.setRegionInteractive();
-    return new Customer[] { minValues, maxValues };
+    isChanged = true;
+    Printing.printCustomers(changedCustomers);
   }
 
-  public static ArrayList<Customer> getfilteredCustomers(ArrayList<Customer> allCustomers, Customer minValues,
-      Customer maxValues) {
-    ArrayList<Customer> result = new ArrayList<Customer>();
-    boolean matchesAge, matchesSex, matchesBmi, matchesChildren, matchesSmoker, matchesRegion, matchesCharges;
-    for (Customer x : allCustomers) {
-      matchesAge = matchesSex = matchesBmi = matchesChildren = matchesSmoker = matchesRegion = matchesCharges = false;
+  public static
 
-      matchesAge = x.age >= minValues.age && x.age <= maxValues.age;
-
-      matchesChildren = x.children >= minValues.children && x.children <= maxValues.children;
-
-      matchesSex = (minValues.sex.equals("any") ? true : x.sex.equals(minValues.sex));
-
-      matchesSmoker = (minValues.smoker.equals("any") ? true : x.smoker.equals(minValues.smoker));
-
-      matchesBmi = x.bmi.compareTo(minValues.bmi) >= 0 && x.bmi.compareTo(maxValues.bmi) <= 0;
-
-      matchesCharges = x.charges.compareTo(minValues.charges) >= 0 && x.charges.compareTo(maxValues.charges) <= 0;
-
-      for (String s : minValues.region.split(",")) {
-        if (s.equals(x.region)) {
-          matchesRegion = true;
-          break;
-        }
-      }
-
-      if (matchesAge && matchesSex && matchesBmi && matchesChildren && matchesSmoker && matchesRegion
-          && matchesCharges) {
-        result.add(x);
-      }
+  private static ArrayList<Customer> sortCustomers(ArrayList<Customer> customers) {
+    System.out.println("Which Attribute you want to sort after?\n" +
+        "id, age, sex, bmi, children, smoker, region, charges");
+    String attributeToBeFiltered = InputHandler.getLine();
+    switch (attributeToBeFiltered) {
+      case "id":
+        customers.sort((c1, c2) -> c1.getId() - c2.getId());
+        return customers;
+      case "age":
+        customers.sort((c1, c2) -> c1.getAge() - c2.getAge());
+        return customers;
+      case "bmi":
+        customers.sort((c1, c2) -> c1.getBmi().compareTo(c2.getBmi()));
+        return customers;
+      case "children":
+        customers.sort((c1, c2) -> c1.getChildren() - c2.getChildren());
+        return customers;
+      case "charges":
+        customers.sort((c1, c2) -> c1.getCharges().compareTo(c2.getCharges()));
+        return customers;
+      case "sex":
+        customers.sort((c1, c2) -> c1.getSex().compareTo(c2.getSex()));
+        return customers;
+      case "smoker":
+        customers.sort((c1, c2) -> c1.getSmoker().compareTo(c2.getSmoker()));
+        return customers;
+      case "region":
+        customers.sort((c1, c2) -> c1.getRegion().compareTo(c2.getRegion()));
+        return customers;
     }
-    return result;
+    return customers;
   }
 }

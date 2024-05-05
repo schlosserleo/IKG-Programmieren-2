@@ -3,8 +3,10 @@ package crm;
 import java.util.ArrayList;
 
 public class MainMenu {
+  private static ArrayList<Customer> customers;
+
   public static void mainLoop() {
-    ArrayList<Customer> allCustomers = CSVParser.parseCSV("insurance.csv");
+    customers = CSVParser.parseCSV("insurance.csv");
     boolean wantToExit = false;
     int userTaskSelection;
     while (true && !wantToExit) {
@@ -13,7 +15,7 @@ public class MainMenu {
       if (!validateNumberRange(userTaskSelection)) {
         continue;
       }
-      wantToExit = launchTask(userTaskSelection, allCustomers);
+      wantToExit = launchTask(userTaskSelection);
     }
   }
 
@@ -25,12 +27,16 @@ public class MainMenu {
     return true;
   }
 
-  private static boolean launchTask(int taskSelection, ArrayList<Customer> allCustomers) {
+  private static boolean launchTask(int taskSelection) {
     switch (taskSelection) {
+      case 1:
+        Tasks.showCustomers(customers);
+        break;
+      case 6:
+        Tasks.showSortedCustomers(customers);
+        break;
       case 7:
         return true;
-      case 1:
-        Tasks.showCustomers(allCustomers);
     }
     return false;
   }
