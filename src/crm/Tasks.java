@@ -9,7 +9,7 @@ public class Tasks {
   private static boolean firstRun = false;
 
   public static void showCustomers(ArrayList<Customer> customers) {
-    Printing.printRefineOutputQuestion();
+    System.out.println("Do you want to filter the Clients? [y/n]");
     if (!InputHandler.getLine().equals("y")) {
       if (firstRun) {
         Printing.printCustomers(changedCustomers);
@@ -40,14 +40,15 @@ public class Tasks {
     if (firstRun) {
       customers = changedCustomers;
     }
-    int maxId = customers.size();
+    int customerSize = customers.size();
+    int maxId = customers.get(customerSize - 1).getId() + 1;
     Customer newCustomer = createCustomerInteractive(maxId);
     customers.add(newCustomer);
     changedCustomers = customers;
   }
 
   private static Customer createCustomerInteractive(int id) {
-    Customer newCustomer = new Customer(id + 1, 0, 0, "", "", null, null, "");
+    Customer newCustomer = new Customer(id, 0, 0, "", "", null, null, "");
     String[] attributes = new String[] { "age", "sex", "bmi", "children", "smoker", "region", "charges" };
     for (String attribute : attributes) {
       System.out.println(attribute + ":");
@@ -107,8 +108,24 @@ public class Tasks {
   public static void showStatistics(ArrayList<Customer> customers) {
     System.out.println(
         "Which Attribute you want to show statistics for ?\n"
-            + "age, sex, bmi, children, smoker,  charges");
+            + "age, sex, bmi, children, smoker, charges, region all");
+
     String attributeToCreateStatistics = InputHandler.getLine();
+    while (!attributeToCreateStatistics.matches("^(age|sex|bmi|children|smoker|charges|region|all)$")) {
+      System.out.println("That's not a valid attribute!");
+      attributeToCreateStatistics = InputHandler.getLine();
+    }
+    if (attributeToCreateStatistics.equals("all")) {
+      for (String attribute : new String[] { "age", "sex", "bmi", "children", "smoker", "charges", "region" }) {
+        createStatistics(customers, attribute);
+        System.out.println();
+      }
+      return;
+    }
+    createStatistics(customers, attributeToCreateStatistics);
+  }
+
+  public static void createStatistics(ArrayList<Customer> customers, String attributeToCreateStatistics) {
 
     BigDecimal[] dataToBeAnalysed;
     if (firstRun) {
@@ -123,6 +140,19 @@ public class Tasks {
     BigDecimal min = Statistics.min(dataToBeAnalysed);
 
     System.out.println("Statistics for " + attributeToCreateStatistics + ":");
+
+    if (attributeToCreateStatistics.equals("region")) {
+      BigDecimal[] regionStaistics = Statistics.regionStatistics(dataToBeAnalysed);
+      BigDecimal northwestPercentage = regionStaistics[0].setScale(3, RoundingMode.CEILING);
+      BigDecimal northeastPercentage = regionStaistics[1].setScale(3, RoundingMode.CEILING);
+      BigDecimal southwestPercentage = regionStaistics[2].setScale(3, RoundingMode.CEILING);
+      BigDecimal southeastPercentage = regionStaistics[3].setScale(3, RoundingMode.CEILING);
+      System.out.println("Northeast: " + northeastPercentage + "%");
+      System.out.println("Northwest: " + northwestPercentage + "%");
+      System.out.println("Southeast: " + southeastPercentage + "%");
+      System.out.println("Southwest: " + southwestPercentage + "%");
+      return;
+    }
 
     if (attributeToCreateStatistics.equals("smoker") || attributeToCreateStatistics.equals("sex")) {
       BigDecimal maleOrSmokerPercentage = average.add(BigDecimal.valueOf(1)).multiply(BigDecimal.valueOf(50));
@@ -155,6 +185,9 @@ public class Tasks {
     int listLength = customers.size();
     int i;
     BigDecimal[] result = new BigDecimal[listLength];
+    if (attributeToCreateStatistics.equals("region")) {
+      result = new BigDecimal[4];
+    }
     switch (attributeToCreateStatistics) {
       case "id":
         i = 0;
@@ -204,10 +237,37 @@ public class Tasks {
           i++;
         }
         break;
+      case "region":
+        int[] temp = new int[] { 0, 0, 0, 0 };
+        for (Customer x : customers) {
+          // 0 = northwest
+          // 1 = northeast
+          // 2 = southwest
+          // 3 = southeast
+          switch (x.region) {
+            case "northwest":
+              temp[0]++;
+              break;
+            case "northeast":
+              temp[1]++;
+              break;
+            case "southwest":
+              temp[2]++;
+              break;
+            case "southeast":
+              temp[3]++;
+              break;
+          }
+        }
+        for (int j = 0; j < 4; j++) {
+          result[j] = BigDecimal.valueOf(temp[j]);
+        }
+        break;
       default:
         System.out.println("That's not a valid option");
     }
     return result;
+
   }
 
   private static ArrayList<Customer> sortCustomers(ArrayList<Customer> customers) {
@@ -215,6 +275,10 @@ public class Tasks {
         "Which Attribute you want to sort after?\n"
             + "id, age, sex, bmi, children, smoker, region, charges");
     String attributeToBeFiltered = InputHandler.getLine();
+    while (!attributeToBeFiltered.matches("^(id|age|sex|bmi|children|smoker|region|charges)$")) {
+      System.out.println("That's not a valid attribute!");
+      attributeToBeFiltered = InputHandler.getLine();
+    }
     switch (attributeToBeFiltered) {
       case "id":
         customers.sort((c1, c2) -> c1.getId() - c2.getId());

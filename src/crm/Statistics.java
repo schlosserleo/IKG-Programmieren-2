@@ -2,6 +2,7 @@ package crm;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Statistics {
@@ -90,5 +91,22 @@ public class Statistics {
 
     public static BigDecimal min(BigDecimal[] input) {
         return Arrays.stream(input).min(BigDecimal::compareTo).orElse(BigDecimal.ZERO);
+    }
+
+    public static BigDecimal[] regionStatistics(BigDecimal[] regionCounts) {
+        BigDecimal[] result = new BigDecimal[4];
+        // 0 = northwest
+        // 1 = northeast
+        // 2 = southwest
+        // 3 = southeast
+        BigDecimal allRegionCount = BigDecimal.valueOf(0);
+        for (BigDecimal x : regionCounts) {
+            allRegionCount = allRegionCount.add(x);
+        }
+        for (int i = 0; i < 4; i++) {
+            result[i] = regionCounts[i].divide(allRegionCount, MathContext.DECIMAL128)
+                    .multiply(BigDecimal.valueOf(100));
+        }
+        return result;
     }
 }
